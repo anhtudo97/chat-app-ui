@@ -9,10 +9,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "code": "apollo codegen:generate --outputFlat=src/_generated  --localSchemaFile=schema.graphql --target=typescript --tagName=gql"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.16",
+    "@apollo/client": "^3.3.17",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
