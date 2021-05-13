@@ -1,0 +1,221 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type AuthUser {
+  displayName: String
+  photoUrl: String
+}
+
+type Badge {
+  badgeName: BadgeName!
+  lastOpened: Timestamp!
+}
+
+type Block {
+  date: Timestamp!
+  user: User!
+}
+
+type Conversation {
+  canChat: Boolean!
+  id: Int!
+  messages: [Message!]!
+  participants: [User!]!
+  type: ConversationType!
+}
+
+type Delivery {
+  date: Timestamp!
+  userID: String!
+}
+
+type Friend {
+  friendshipDate: Timestamp!
+  lastSeen: Timestamp
+  user: User!
+}
+
+type FriendRequest {
+  date: Timestamp!
+  user: User!
+}
+
+type FriendRequests {
+  received: [FriendRequest!]!
+  sent: [FriendRequest!]!
+}
+
+type Friendship {
+  date: Timestamp
+  status: FriendshipStatus!
+}
+
+type FriendshipInfo {
+  friendship: Friendship!
+  user: User!
+}
+
+type LoginResponse {
+  accessToken: String!
+  authUser: AuthUser!
+}
+
+type Me {
+  activeStatus: Boolean!
+  user: User!
+}
+
+type Media {
+  thumbUrl: String
+  type: MediaType!
+  url: String!
+}
+
+type Message {
+  conversationID: Int!
+  deliveredTo: [Delivery!]!
+  id: Int!
+  medias: [Media!]
+  seenBy: [Delivery!]!
+  senderID: String!
+  sentAt: Timestamp!
+  text: String
+}
+
+type MessageSub {
+  message: Message!
+  update: Boolean
+}
+
+type Mutation {
+  acceptFriendRequest(userID: String!): Friendship!
+  block(blocked_id: String!): Block!
+  cancelFriendRequest(userID: String!): Friendship!
+  declineFriendRequest(userID: String!): Friendship!
+  getOrCreateOneToOneConversation(userID: String!): Conversation!
+  loginWithGoogle(input: LoginInput!): LoginResponse!
+  markNotificationAsSeen(notificationID: Int!): Boolean!
+  messagesDelivered(conversationIDs: [Int!]!): Int!
+  messagesSeen(conversationID: Int!): Int!
+  register(input: UserCreation!): Me!
+  sendFriendRequest(userID: String!): Friendship!
+  sendMessage(message: SendMessageInput!): Message!
+  typing(typing: TypingInput!): Typing!
+  unblock(blocked_id: String!): String!
+  unfriend(userID: String!): Friendship!
+  updateActiveStatus(activeStatus: Boolean!): Boolean!
+  updateBadge(badgeName: BadgeName!): Badge!
+  updateLastSeen: Timestamp!
+  updateUser(input: UserUpdate!): Me!
+}
+
+type Notification {
+  date: Timestamp!
+  friend: User
+  id: Int!
+  seen: Boolean!
+  type: NotificationType!
+}
+
+type Query {
+  checkUsernameExistence(username: String!): Boolean!
+  findUsers(searchQuery: String!): [User!]!
+  getBadges: [Badge!]!
+  getBlockedUsers: [Block!]!
+  getConversations: [Conversation!]!
+  getFriendRequests: FriendRequests!
+  getFriends: [Friend!]!
+  getFriendshipInfo(id: String, username: String): FriendshipInfo!
+  getMoreMessages(conversationID: Int!, messageID: Int!): [Message!]!
+  getNotifications: [Notification!]!
+  me: Me!
+}
+
+type Subscription {
+  messages: MessageSub!
+  typings: Typing!
+}
+
+type Typing {
+  conversationID: Float!
+  started: Boolean!
+  userID: String!
+}
+
+type User {
+  id: String!
+  name: String
+  photoURLMedium: String
+  photoURLSmall: String
+  photoURLSource: String
+  username: String!
+}
+
+enum BadgeName {
+  FRIEND_REQUESTS
+  NOTIFICATIONS
+}
+
+enum ConversationType {
+  GROUP
+  ONE_TO_ONE
+}
+
+enum FriendshipStatus {
+  BLOCKED
+  BLOCKING
+  FRIENDS
+  REQUEST_RECEIVED
+  REQUEST_SENT
+  STRANGERS
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum NotificationType {
+  REQUEST_ACCEPTED
+  SYSTEM
+}
+
+input LoginInput {
+  token: String!
+}
+
+input SendMessageInput {
+  conversationID: Int!
+  medias: [Upload!]
+  text: String
+}
+
+input TypingInput {
+  conversationID: Int!
+  started: Boolean!
+}
+
+input UserCreation {
+  name: String
+  photo: Upload
+  username: String!
+}
+
+input UserUpdate {
+  deleteName: Boolean
+  deletePhoto: Boolean
+  name: String
+  photo: Upload
+  username: String
+}
+
+"The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch."
+scalar Timestamp
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
