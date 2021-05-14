@@ -39,7 +39,7 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async singOut(): Promise<Either<AuthError, null>> {
+  async signOut(): Promise<Either<AuthError, null>> {
     return this.leftOrRight<null>(async () => {
       return this._authAPI.logout();
     });
