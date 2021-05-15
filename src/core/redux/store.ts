@@ -5,11 +5,13 @@ import {
 } from "@reduxjs/toolkit";
 
 import authReducer from "../../features/auth/auth-slice";
+import meReducer from "../../features/user/me-slice";
 
 import StoreExtraArg from "./store-extra-arg";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  me: meReducer,
 });
 
 const createStore = (services: StoreExtraArg) => {
