@@ -33,3 +33,5 @@ export type GetUserArgs = {
   userID?: string;
   username?: string;
 };
+
+export default User;
