@@ -17,3 +17,5 @@ export const stringifyUserError = (error: UserError): string => {
       return "Something went wrong";
   }
 };
+
+export default UserError;
