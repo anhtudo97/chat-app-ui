@@ -3,7 +3,7 @@ import { authActions } from "./auth-slice";
 
 export const AuthActionContext = React.createContext(authActions);
 
-export const useAuthAction = () => useContext(AuthActionContext);
+export const useAuthActions = () => useContext(AuthActionContext);
 
 const AuthActionsProvider = ({ children }: { children: React.ReactNode }) => {
   return (
