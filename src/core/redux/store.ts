@@ -6,12 +6,16 @@ import {
 
 import authReducer from "../../features/auth/auth-slice";
 import meReducer from "../../features/user/me-slice";
+import friendProfileReducer from "../../features/friend/friend-profile-slice";
+import friendsReducer from "../../features/friend/friends-slice";
 
 import StoreExtraArg from "./store-extra-arg";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   me: meReducer,
+  friendProfile: friendProfileReducer,
+  friends: friendsReducer,
 });
 
 const createStore = (services: StoreExtraArg) => {
