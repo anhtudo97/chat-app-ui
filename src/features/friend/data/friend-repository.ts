@@ -6,7 +6,6 @@ import { IFriendAPI } from "./sources/friend-api";
 import User, { GetUserArgs } from "../../user/types/user";
 import { FriendRequest, FriendRequests } from "../types/friend-request";
 import Friend from "../types/friend";
-import FriendError from "../types/friend-error";
 
 export interface IFriendRepository {
   getFriends(): Promise<Either<FriendError, Friend[]>>;
