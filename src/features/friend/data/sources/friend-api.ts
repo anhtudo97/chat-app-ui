@@ -164,7 +164,7 @@ export default class FriendAPI implements IFriendAPI {
     return data!.cancelFriendRequest;
   }
 
-  async undefined(userID: string): Promise<Friendship> {
+  async unFriend(userID: string): Promise<Friendship> {
     const { data } = await this._client.mutate<Unfriend, UnfriendVariables>({
       mutation: UNFRIEND_MUTATION,
       variables: { userID },
