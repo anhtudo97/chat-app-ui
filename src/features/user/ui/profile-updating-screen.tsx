@@ -56,6 +56,39 @@ export type ProfileUpdatingScreenProps = {
   initialPhotoURL?: string;
 };
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    wrapper: {
+      ...wrapper,
+      ...nonSelectable,
+    },
+    layout: centeredLayout,
+    form: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    textField: {
+      margin: "10px auto",
+      width: "250px",
+    },
+    saveWrapper: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "50px",
+    },
+    logoutButton: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      margin: theme.spacing(2),
+      color: "black",
+    },
+  })
+);
+
 export const ProfileUpdatingScreen: React.FC<ProfileUpdatingScreenProps> = ({
   registering,
   initialUsername,
@@ -87,7 +120,7 @@ export const ProfileUpdatingScreen: React.FC<ProfileUpdatingScreenProps> = ({
   const [nameError, setNameError] = useState<string>();
 
   // Ste to true to show the logout alert dialog
-  const [logginOut, setLogginOut] = useState(false);
+  const [logginOut, setLoggingOut] = useState(false);
   const [success, setSuccess] = useState(0);
 
   // Redux hooks to
@@ -132,7 +165,7 @@ export const ProfileUpdatingScreen: React.FC<ProfileUpdatingScreenProps> = ({
   };
 
   // Called by the ProfilePhotoPicker component when the user selects a photo
-  const photoPickerd = useCallback(async (photo: File) => {
+  const photoPicker = useCallback(async (photo: File) => {
     const newCropSrc = await photoUtils.fileToURL(photo);
     cropPhoto(newCropSrc);
   }, []);
@@ -143,7 +176,7 @@ export const ProfileUpdatingScreen: React.FC<ProfileUpdatingScreenProps> = ({
   }, []);
 
   // Called by the photo cropper with photo passed as a parameter
-  const cancelCroppping = useCallback(() => {
+  const cancelCropping = useCallback(() => {
     setCropping(false);
   }, []);
 
@@ -159,16 +192,159 @@ export const ProfileUpdatingScreen: React.FC<ProfileUpdatingScreenProps> = ({
     setUsername(username);
   }, []);
 
+  // onChange for the name TextField
+  const nameChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value;
+    setName(name);
+  }, []);
+
   // Show alert dialog when the user clicks the logout button
   const askForLogoutConfirmation = useCallback(() => {
-    setLogginOut(false);
+    setLoggingOut(false);
+    dispatch(signOut());
+  }, []);
+
+  // Called when the user confirms the logout from the alert dialog
+  const logoutConfirmed = useCallback(() => {
+    setLoggingOut(false);
     dispatch(signOut());
   }, []);
 
   // Called when the user cancels the logout from the alert dialog
   const logoutCanceled = useCallback(() => {
-    setLogginOut(false);
+    setLoggingOut(false);
   }, []);
 
-  return <h1>profile updating</h1>;
+  // Called when the registration form is submitted
+  const submit = useCallback(
+    async (e: React.MouseEvent | React.FormEvent) => {
+      e.preventDefault();
+      const usernameError = validators.validateUsername(username);
+      setUsernameError(usernameError);
+      const nameError = validators.validateName(name);
+      setNameError(nameError);
+
+      // Dont submit if there is a validation error
+      if (usernameError || nameError) return;
+
+      if (registering) {
+        let photo: File | undefined;
+        if (src) photo = await photoUtils.urlToFile(src, "profile-photo");
+
+        dispatch(
+          createMe({
+            username,
+            name,
+            photo,
+          })
+        );
+      } else {
+        const update: UserUpdate = {};
+        if (username !== initialUsername) update.username = username;
+
+        if (name != initialName) {
+          if (name.length) update.name = name;
+          else if (initialName) update.deleteName = true;
+        }
+
+        if (src != initialPhotoURL) {
+          if (src)
+            update.photo = await photoUtils.urlToFile(src, "profile-photo");
+          else update.deleteName = true;
+        }
+
+        if (!Object.keys(update).length) return;
+        const result = await dispatch(updateMe(update));
+      }
+    },
+    [username, name, src]
+  );
+
+  const classes = useStyles();
+
+  return (
+    <div className={classes.wrapper} data-testid="profile-updating-screen">
+      {registering && (
+        <IconButton
+          className={classes.logoutButton}
+          onClick={askForLogoutConfirmation}
+          data-testid="logout-button"
+        >
+          <Icon>logout</Icon>
+        </IconButton>
+      )}
+      {!registering && <BackButton className={classes.logoutButton} />}
+      <div className={classes.layout}>
+        <ProfilePhotoPicker
+          defaultSrc={defaultSrc}
+          src={src}
+          onPhotoPicker={photoPicker}
+          onPhotoRemoved={photoRemoved}
+        />
+        <form className={classes.form}>
+          <TextField
+            className={classes.textField}
+            onChange={usernameChanged}
+            value={username}
+            variant="outlined"
+            label="username"
+            helperText={getUsernameError()}
+            error={hasUsernameError()}
+            data-testid="username-text-field"
+          />
+          <TextField
+            className={classes.textField}
+            onChange={nameChanged}
+            value={name}
+            variant="outlined"
+            label="name"
+            helperText={nameError}
+            error={!!nameError}
+            data-testid="name-text-field"
+          />
+          <div className={classes.saveWrapper}>
+            {state.updatingUser && (
+              <Button
+                startIcon={<Icon>check</Icon>}
+                onClick={submit}
+                type="submit"
+                variant="contained"
+                color="primary"
+                data-test-id="submit-button"
+              >
+                save
+              </Button>
+            )}
+            {state.updatingUser && (
+              <CircularProgress data-test-id="registration-loading" />
+            )}
+          </div>
+        </form>
+
+        <FullScreenDialog visible={cropping} onClose={cancelCropping}>
+          <PhotoCropper
+            src={cropSrc || defaultSrc}
+            onCropFinished={photoCropped}
+            onCropCanceled={cancelCropping}
+          />
+        </FullScreenDialog>
+        <AlertDialog
+          title="Logout"
+          content="Are you sure you want to logout"
+          open={logginOut}
+          onCancel={logoutCanceled}
+          onConfirm={logoutConfirmed}
+        />
+        <ErrorSnackbar
+          currentError={state.error}
+          stringify={stringifyError}
+          exclude={[UserError.usernameTaken]}
+        />
+        <SuccessSnackbar
+          renderCount={success}
+          message="Profile updated successfully"
+        />
+      </div>
+    </div>
+  );
 };
