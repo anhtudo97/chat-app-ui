@@ -37,7 +37,7 @@ const createMe = createAsyncThunk<Me, UserCreation, ThunkAPI<UserError>>(
   }
 );
 
-const updateMe = createAsyncThunk<Me, UserCreation, ThunkAPI<UserError>>(
+const updateMe = createAsyncThunk<Me, UserUpdate, ThunkAPI<UserError>>(
   "me/updateMe",
   async (update, thunkAPI) => {
     const result = await thunkAPI.extra.meRepo.updateMe(update);

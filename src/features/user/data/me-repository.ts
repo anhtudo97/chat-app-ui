@@ -9,7 +9,7 @@ export interface IMeRepository {
 
   createMe(creation: UserCreation): Promise<Either<UserError, Me>>;
 
-  updateMe(update: UserCreation): Promise<Either<UserError, Me>>;
+  updateMe(update: UserUpdate): Promise<Either<UserError, Me>>;
 
   updateActiveStatus(
     activeStatus: boolean
