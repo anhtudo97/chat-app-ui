@@ -1,4 +1,4 @@
-import RetryButton from "./retry-button";
+import { RetryButton } from "./retry-button";
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
@@ -7,7 +7,10 @@ export type RetryPageProps = {
   errorMessage: string;
 };
 
-const RetryPage: React.FC<RetryPageProps> = ({ onRetry, errorMessage }) => {
+export const RetryPage: React.FC<RetryPageProps> = ({
+  onRetry,
+  errorMessage,
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -23,5 +26,3 @@ const useStyles = makeStyles({
     height: "100%",
   },
 });
-
-export default RetryPage;

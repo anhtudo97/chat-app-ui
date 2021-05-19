@@ -11,7 +11,7 @@ export type ResponsiveTwoSidesProps = {
   rightFiller?: React.ReactNode;
 };
 
-const ResponsiveTwoSides: React.FC<ResponsiveTwoSidesProps> = ({
+export const ResponsiveTwoSides: React.FC<ResponsiveTwoSidesProps> = ({
   leftTopBar,
   leftChildren,
   rightChildren,
@@ -36,8 +36,6 @@ const ResponsiveTwoSides: React.FC<ResponsiveTwoSidesProps> = ({
     </div>
   );
 };
-
-export default ResponsiveTwoSides;
 
 type MainScreenStyle = {
   isMobile: boolean;

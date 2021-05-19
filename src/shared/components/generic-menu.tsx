@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, MenuProps } from "@material-ui/core";
 
-const GenericMenu = (props: MenuProps) => {
+export const GenericMenu = (props: MenuProps) => {
   return (
     <Menu
       getContentAnchorEl={null}
@@ -17,5 +17,3 @@ const GenericMenu = (props: MenuProps) => {
     />
   );
 };
-
-export default GenericMenu;

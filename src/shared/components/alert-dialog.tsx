@@ -16,7 +16,7 @@ type AlertDialogProps = {
   onConfirm: () => void;
 };
 
-const AlertDialog: React.FC<AlertDialogProps> = ({
+export const AlertDialog: React.FC<AlertDialogProps> = ({
   title,
   content,
   open,
@@ -53,5 +53,3 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
     </Dialog>
   );
 };
-
-export default AlertDialog;

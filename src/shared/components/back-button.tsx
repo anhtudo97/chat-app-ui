@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-const BackButton: React.FC<BackButtonProps> = ({
+export const BackButton: React.FC<BackButtonProps> = ({
   to,
   hide,
   mobileOnly,
@@ -42,5 +42,3 @@ const BackButton: React.FC<BackButtonProps> = ({
     </IconButton>
   );
 };
-
-export default BackButton;

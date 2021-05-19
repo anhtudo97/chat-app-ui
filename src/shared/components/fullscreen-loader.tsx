@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const FullscreenLoader = () => {
+export const FullscreenLoader = () => {
   const classes = useStyles();
 
   return (
@@ -25,5 +25,3 @@ const FullscreenLoader = () => {
     </div>
   );
 };
-
-export default FullscreenLoader;

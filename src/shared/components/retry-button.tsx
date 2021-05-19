@@ -6,7 +6,10 @@ type RetryButtonProps = {
   message: string;
 };
 
-const RetryButton: React.FC<RetryButtonProps> = ({ onClick, message }) => {
+export const RetryButton: React.FC<RetryButtonProps> = ({
+  onClick,
+  message,
+}) => {
   const classes = useStyles();
 
   return (
@@ -37,5 +40,3 @@ const useStyles = makeStyles({
     textAlign: "center",
   },
 });
-
-export default RetryButton;
