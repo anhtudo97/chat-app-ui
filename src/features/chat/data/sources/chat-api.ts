@@ -73,7 +73,7 @@ export interface IChatAPI {
   subscribeToTyping(): Observable<Typing>;
 }
 
-export const MESSAGE_PER_FETCH = 30;
+export const MESSAGES_PER_FETCH = 30;
 
 export type SendMessageInput = {
   conversationID: number;
