@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum ConversationType {
+  GROUP = "GROUP",
+  ONE_TO_ONE = "ONE_TO_ONE",
+}
+
 export enum FriendshipStatus {
   BLOCKED = "BLOCKED",
   BLOCKING = "BLOCKING",
@@ -16,8 +21,19 @@ export enum FriendshipStatus {
   STRANGERS = "STRANGERS",
 }
 
+export enum MediaType {
+  IMAGE = "IMAGE",
+  VIDEO = "VIDEO",
+}
+
 export interface LoginInput {
   token: string;
+}
+
+export interface SendMessageInput {
+  conversationID: number;
+  medias?: any[] | null;
+  text?: string | null;
 }
 
 export interface UserCreation {
