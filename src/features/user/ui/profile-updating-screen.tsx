@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { FullScreenDialog } from "./components/fullscreen-dialog";
-import AlertDialog from "../../../shared/components/alert-dialog";
+import { AlertDialog } from "../../../shared/components/alert-dialog";
 import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import UserError from "../types/user-error";
 import {
@@ -28,8 +28,7 @@ import { useMeActions } from "../me-actions-context";
 import { useFileUtils } from "../../../shared/utils/file-utils";
 import { useAppDispatch, useAppSelector } from "../../../core/redux/hooks";
 import { UserUpdate } from "../types/user";
-import BackButton from "../../../shared/components/back-button";
-import { shallowEqual } from "react-redux";
+import { BackButton } from "../../../shared/components/back-button";
 
 const validators = {
   validateUsername(username: string) {

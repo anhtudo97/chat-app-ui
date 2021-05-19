@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     maxHeight: "36px",
   },
 });
-const FriendsButton = () => {
+export const FriendsButton = () => {
   const friends = useAppSelector((state) => state.friends.friends);
   const history = useHistory();
   const classes = useStyles();
