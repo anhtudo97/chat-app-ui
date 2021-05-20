@@ -9,6 +9,8 @@ import meReducer from "../../features/user/me-slice";
 import friendProfileReducer from "../../features/friend/friend-profile-slice";
 import friendsReducer from "../../features/friend/friends-slice";
 
+import chatReducer from "../../features/chat/chat-slice";
+
 import StoreExtraArg from "./store-extra-arg";
 
 const rootReducer = combineReducers({
@@ -16,6 +18,7 @@ const rootReducer = combineReducers({
   me: meReducer,
   friendProfile: friendProfileReducer,
   friends: friendsReducer,
+  chat: chatReducer,
 });
 
 const createStore = (services: StoreExtraArg) => {
