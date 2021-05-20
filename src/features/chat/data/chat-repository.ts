@@ -80,9 +80,11 @@ export default class ChatRepository implements IChatRepository {
   typing(input: TypingInput): Promise<Either<ChatError, null>> {
     return this._leftOrRight(() => this._chatAPI.typing(input));
   }
+
   sendMessage(input: SendMessageInput): Promise<Either<ChatError, Message>> {
     return this._leftOrRight(() => this._chatAPI.sendMessage(input));
   }
+
   messagesDelivered(
     conversationIDs: number[]
   ): Promise<Either<ChatError, number>> {
@@ -90,12 +92,15 @@ export default class ChatRepository implements IChatRepository {
       this._chatAPI.messagesDelivered(conversationIDs)
     );
   }
+
   messagesSeen(conversationID: number): Promise<Either<ChatError, number>> {
     return this._leftOrRight(() => this._chatAPI.messagesSeen(conversationID));
   }
+
   subscribeToMessages(): Observable<MessageSub> {
     return this._chatAPI.subscribeToMessages();
   }
+
   subscribeToTyping(): Observable<Typing> {
     return this._chatAPI.subscribeToTyping();
   }
