@@ -8,6 +8,7 @@ import Message from "./types/message";
 import { Media } from "./types/media";
 import Typing, { TypingInput } from "./types/typing";
 import UserError from "../user/types/user-error";
+import message from "./types/message";
 
 export type ChatState = {
   conversations: Conversation[] | null;
@@ -241,7 +242,6 @@ const chatSlice = createSlice({
       action: PayloadAction<{ message: Message; update?: boolean }>
     ) {
       const { message } = action.payload;
-
       const index = state.conversations!.findIndex(
         (c) => c.id === message.conversationID
       );
@@ -293,6 +293,92 @@ const chatSlice = createSlice({
         idx--;
       }
     },
+  },
+  extraReducers: (builder) => {
+    // getConversations
+    builder
+      .addCase(getConversations.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(getConversations.fulfilled, (state, action) => {
+        state.conversations = action.payload;
+        action.payload.forEach((conv) => {
+          setLastSeenAndHasMore(state, conv);
+        });
+      })
+      .addCase(getConversations.rejected, _handleRejected);
+    // getOrCreateOTOConversation
+    builder
+      .addCase(getOrCreateOTOConversation.fulfilled, (state, action) => {
+        const conv = action.payload;
+        if (!state.conversations) {
+          state.conversations = [conv];
+          setLastSeenAndHasMore(state, conv);
+        } else {
+          const existing = state.conversations.find((c) => c.id === conv.id);
+          if (!existing) {
+            state.conversations.unshift(conv);
+            setLastSeenAndHasMore(state, conv);
+          }
+        }
+      })
+      .addCase(getOrCreateOTOConversation.rejected, _handleRejected);
+    // getMoreMessages
+    builder.addCase(getMoreMessages.fulfilled, (state, action) => {
+      if (!action.payload) return;
+      const convID = action.meta.arg;
+      const conv = state.conversations!.find((c) => c.id === convID)!;
+      const newMessages = action.payload;
+      let userIDs: string[] = [];
+      conv.participants.forEach((p) => {
+        if (state.lastSeen[convID][p.id] === -1) userIDs.push(p.id);
+      });
+      if (userIDs.length) {
+        let idx = newMessages.length - 1;
+        while (idx >= 0 && userIDs.length) {
+          const msg = newMessages[idx];
+          if (userIDs.indexOf(msg.senderID) !== -1) {
+            userIDs = userIDs.filter((id) => id !== msg.senderID);
+            state.lastSeen[convID][msg.senderID] = msg.id;
+          }
+          const sb = msg.seenBy[0];
+          if (sb && userIDs.indexOf(sb.userID) !== -1) {
+            userIDs = userIDs.filter((id) => id !== sb.userID);
+            state.lastSeen[convID][sb.userID] = msg.id;
+          }
+          idx--;
+        }
+      }
+      conv.messages = [...newMessages, ...conv.messages];
+      state.hasMore[convID] = newMessages.length >= MESSAGES_PER_FETCH;
+    });
+    // sendMessage
+    builder
+      .addCase(sendMessage.fulfilled, (state, action) => {
+        const message = action.payload;
+        const { conversationID, tempID } = action.meta.arg;
+        const conv = state.conversations!.find((c) => c.id === conversationID)!;
+        const delivered = conv.messages.find((m) => m.id === message.id);
+        const messageIndex = conv?.messages.findIndex((m) => m.id === tempID);
+        if (delivered) {
+          conv.messages.splice(messageIndex, 1);
+          return;
+        }
+        conv.messages[messageIndex] = message;
+        state.lastSeen[conv.id][message.senderID] = message.id;
+      })
+      .addCase(sendMessage.rejected, (state, action) => {
+        const { conversationID, tempID } = action.meta.arg;
+        const conv = state.conversations!.find((c) => c.id === conversationID)!;
+
+        const messageIndex = conv?.messages.findIndex((m) => m.id === tempID);
+        conv.messages[messageIndex].error = true;
+        if (
+          action.payload === ChatError.blocked ||
+          action.payload === ChatError.blocking
+        )
+          conv.canChat = false;
+      });
   },
 });
 
