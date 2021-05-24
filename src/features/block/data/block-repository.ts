@@ -4,7 +4,7 @@ import BlockError from "../types/block-error";
 import { isApolloError } from "@apollo/client";
 import { IBlockAPI } from "./sources/block-api";
 
-export interface IBlockrRepository {
+export interface IBlockRepository {
   block(blockedID: string): Promise<Either<BlockError, Block>>;
 
   unblock(blockedID: string): Promise<Either<BlockError, string>>;
@@ -12,7 +12,7 @@ export interface IBlockrRepository {
   getBlockedUsers(): Promise<Either<BlockError, Block[]>>;
 }
 
-export default class BlockRepository implements IBlockrRepository {
+export default class BlockRepository implements IBlockRepository {
   private readonly _blockAPI: IBlockAPI;
 
   constructor(blockAPI: IBlockAPI) {

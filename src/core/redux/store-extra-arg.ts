@@ -3,6 +3,7 @@ import { IMeRepository } from "../../features/user/data/me-repository";
 import { IFriendRepository } from "../../features/friend/data/friend-repository";
 import { IChatRepository } from "../../features/chat/data/chat-repository";
 
+import { IBlockRepository } from "../../features/block/data/block-repository";
 import { IFileUtils } from "../../shared/utils/file-utils";
 
 type StoreExtraArg = {
@@ -10,7 +11,7 @@ type StoreExtraArg = {
   meRepo: IMeRepository;
   friendRepo: IFriendRepository;
   chatRepo: IChatRepository;
-
+  blockRepo: IBlockRepository;
   fileUtils: IFileUtils;
 };
 
