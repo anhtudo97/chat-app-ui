@@ -8,13 +8,14 @@ import authReducer from "../../features/auth/auth-slice";
 import meReducer from "../../features/user/me-slice";
 import friendProfileReducer from "../../features/friend/friend-profile-slice";
 import friendsReducer from "../../features/friend/friends-slice";
-
 import chatReducer from "../../features/chat/chat-slice";
+import blockReducer from "../../features/block/block-slice";
 
 import StoreExtraArg from "./store-extra-arg";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  block: blockReducer,
   me: meReducer,
   friendProfile: friendProfileReducer,
   friends: friendsReducer,
