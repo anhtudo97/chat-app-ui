@@ -10,6 +10,7 @@ import friendProfileReducer from "../../features/friend/friend-profile-slice";
 import friendsReducer from "../../features/friend/friends-slice";
 import chatReducer from "../../features/chat/chat-slice";
 import blockReducer from "../../features/block/block-slice";
+import searchReducer from "../../features/search/search-slice";
 
 import StoreExtraArg from "./store-extra-arg";
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   friendProfile: friendProfileReducer,
   friends: friendsReducer,
   chat: chatReducer,
+  search: searchReducer,
 });
 
 const createStore = (services: StoreExtraArg) => {
