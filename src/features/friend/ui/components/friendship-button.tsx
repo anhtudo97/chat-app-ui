@@ -29,7 +29,7 @@ const useStyles = makeStyles<Theme, { block: boolean }>(
   })
 );
 
-export const FriendButton = () => {
+export const FriendshipButton = () => {
   const state = useAppSelector((state) => state.friendProfile);
   const dispatch = useAppDispatch();
   const actions = useFriendProfileActions();
