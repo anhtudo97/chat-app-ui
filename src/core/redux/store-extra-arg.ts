@@ -5,6 +5,8 @@ import { IChatRepository } from "../../features/chat/data/chat-repository";
 import { IBadgeRepository } from "../../features/badge/data/badge-repository";
 import { ISearchRepository } from "../../features/search/data/search-repository";
 import { IBlockRepository } from "../../features/block/data/block-repository";
+import { INotificationRepository } from "../../features/notification/data/notification-repository";
+
 import { IFileUtils } from "../../shared/utils/file-utils";
 
 type StoreExtraArg = {
@@ -15,6 +17,7 @@ type StoreExtraArg = {
   searchRepo: ISearchRepository;
   chatRepo: IChatRepository;
   blockRepo: IBlockRepository;
+  notificationRepo: INotificationRepository;
   fileUtils: IFileUtils;
 };
 

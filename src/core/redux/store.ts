@@ -10,6 +10,7 @@ import friendProfileReducer from "../../features/friend/friend-profile-slice";
 import friendsReducer from "../../features/friend/friends-slice";
 import chatReducer from "../../features/chat/chat-slice";
 import blockReducer from "../../features/block/block-slice";
+import notificationReducer from "../../features/notification/notification-slice";
 import searchReducer from "../../features/search/search-slice";
 import badgeReducer from "../../features/badge/badge-slice";
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   block: blockReducer,
   me: meReducer,
   friendProfile: friendProfileReducer,
+  notification: notificationReducer,
   friends: friendsReducer,
   chat: chatReducer,
   search: searchReducer,
