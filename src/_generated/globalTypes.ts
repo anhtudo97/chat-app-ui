@@ -31,6 +31,11 @@ export enum MediaType {
   VIDEO = "VIDEO",
 }
 
+export enum NotificationType {
+  REQUEST_ACCEPTED = "REQUEST_ACCEPTED",
+  SYSTEM = "SYSTEM",
+}
+
 export interface LoginInput {
   token: string;
 }
