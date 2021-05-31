@@ -14,10 +14,46 @@ export const initialBadgeState: BadgeState = {
   friendRequests: null,
 };
 
+const getBadges = createAsyncThunk<Badge[], void, ThunkAPI<BadgeError>>(
+  "badge/getBadges",
+  async (_, thunkAPI) => {
+    const result = await thunkAPI.extra.badgeRepo.getBadges();
+    if (isRight(result)) return result.right;
+    return thunkAPI.rejectWithValue(result.left);
+  }
+);
+
+const updateBadge = createAsyncThunk<Badge, BadgeName, ThunkAPI<BadgeError>>(
+  "badge/updateBadge",
+  async (badgeName, thunkAPI) => {
+    const result = await thunkAPI.extra.badgeRepo.updateBadge(badgeName);
+    if (isRight(result)) return result.right;
+    return thunkAPI.rejectWithValue(result.left);
+  }
+);
+
 const badgeSlice = createSlice({
   name: "badge",
   initialState: initialBadgeState,
   reducers: {},
+  extraReducers: (builder) => {
+    // getBadges
+    builder.addCase(getBadges.fulfilled, (state, action) => {
+      action.payload.forEach((b) => {
+        if (b.badgeName === BadgeName.NOTIFICATIONS) {
+          state.notifications = b.lastOpened;
+        } else state.friendRequests = b.lastOpened;
+      });
+    });
+    // updateBadge
+    builder.addCase(updateBadge.fulfilled, (state, action) => {
+      const badgeName = action.meta.arg;
+      if (badgeName === BadgeName.NOTIFICATIONS)
+        state.notifications = new Date().getTime();
+      else state.friendRequests = new Date().getTime();
+    });
+  },
 });
 
 export default badgeSlice.reducer;
+export const badgeActions = { getBadges, updateBadge, ...badgeSlice.actions };
