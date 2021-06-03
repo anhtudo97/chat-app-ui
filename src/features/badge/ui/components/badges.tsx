@@ -63,6 +63,19 @@ export const Badges = () => {
     }
   }, [badgeState, friendRequests]);
 
+  useEffect(() => {
+    if (!badgeState.notifications || !notifications) {
+      setNotiCount(0);
+    } else {
+      let count = 0;
+      for (let notif of notifications) {
+        if (notif.date < badgeState.notifications) break;
+        count++;
+      }
+      setNotiCount(count);
+    }
+  }, [badgeState, notifications]);
+
   const notiClicked = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       if (isMobile) history.push("/notifications", { canGoBack: true });
