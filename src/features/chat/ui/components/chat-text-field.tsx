@@ -257,7 +257,7 @@ const useStyles = makeStyles<Theme, { typing: boolean }>({
     margin: "5px",
   },
   sendButton: (props) => {
-    const value = props.typing ? undefined : 0;
+    const value = props.typing ? "unset" : 0;
     return {
       width: value,
       height: value,
