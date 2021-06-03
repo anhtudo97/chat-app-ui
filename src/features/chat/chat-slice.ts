@@ -96,8 +96,8 @@ const sendMessage = createAsyncThunk<
     id: input.tempID,
     senderID: thunkAPI.getState().me.me!.id,
     conversationID: input.conversationID,
-    text: input.text,
-    medias,
+    text: input.text ?? null,
+    medias: medias ?? null,
     sentAt: new Date().getTime(),
     deliveredTo: [],
     seenBy: [],
@@ -107,8 +107,8 @@ const sendMessage = createAsyncThunk<
   thunkAPI.dispatch(chatActions.appendMessage({ message: pendingMessage }));
   const result = await thunkAPI.extra.chatRepo.sendMessage({
     conversationID: input.conversationID,
-    text: input.text,
-    medias: input.medias,
+    text: input.text ?? null,
+    medias: input.medias ?? null,
   });
 
   if (isRight(result)) {
