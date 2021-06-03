@@ -4,8 +4,8 @@ type Message = {
   id: number;
   conversationID: number;
   senderID: string;
-  text?: string;
-  medias?: Media[];
+  text?: string | null;
+  medias?: Media[] | null;
   sentAt: number;
   deliveredTo: Delivery[];
   seenBy: Delivery[];
@@ -20,7 +20,7 @@ export type Delivery = {
 
 export type MessageSub = {
   message: Message;
-  update?: boolean;
+  update?: boolean | null;
 };
 
 export default Message;

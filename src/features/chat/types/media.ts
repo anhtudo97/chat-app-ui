@@ -1,6 +1,6 @@
 export type Media = {
   url: string;
-  thumbUrl?: string;
+  thumbUrl?: string | undefined;
   type: MediaType;
 };
 

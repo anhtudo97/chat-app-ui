@@ -47,8 +47,6 @@ import {
 import Typing, { TypingInput } from "../../types/typing";
 import { SubscribeToTypings } from "../../../../_generated/SubscribeToTypings";
 import { ImTyping, ImTypingVariables } from "../../../../_generated/ImTyping";
-import { Friendship } from "../../../friend/types/friendship";
-import { date } from "fp-ts";
 
 export interface IChatAPI {
   getConversations(): Promise<Conversation[]>;
@@ -77,8 +75,8 @@ export const MESSAGES_PER_FETCH = 30;
 
 export type SendMessageInput = {
   conversationID: number;
-  text?: string;
-  medias?: File[];
+  text?: string | null;
+  medias?: File[] | null;
 };
 
 export default class ChatAPI implements IChatAPI {
@@ -146,7 +144,7 @@ export default class ChatAPI implements IChatAPI {
       .map(({ data }) => {
         return {
           message: ChatAPI.parseMessage(data!.messages.message),
-          update: data!.messages.update ?? undefined,
+          update: data!.messages.update ?? null,
         };
       });
   }
@@ -213,8 +211,8 @@ export default class ChatAPI implements IChatAPI {
       id: message.id,
       conversationID: message.conversationID,
       senderID: message.senderID,
-      text: message.text ?? undefined,
-      medias: message.medias?.map(ChatAPI.parseMedia),
+      text: message.text ?? null,
+      medias: message.medias?.map(ChatAPI.parseMedia) ?? null,
       sentAt: message.sentAt,
       deliveredTo: message.deliveredTo.map(ChatAPI.parseDelivery),
       seenBy: message.seenBy.map(ChatAPI.parseDelivery),
