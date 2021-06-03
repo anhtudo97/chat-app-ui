@@ -16,14 +16,14 @@ import { Theme } from "@material-ui/core/styles/createMuiTheme";
 export type RequestListItemProps = {
   req: FriendRequest;
   style?: React.CSSProperties;
-  received?: boolean;
+  received?: boolean | undefined;
   loading?: boolean;
   onClick?: (user: User) => void;
   onAccept?: (user: User) => void;
   onCancel?: (user: User) => void;
 };
 
-const useStyles = makeStyles<Theme, { received?: boolean }>({
+const useStyles = makeStyles<Theme, { received?: boolean | undefined }>({
   outer: {
     display: "flex",
     alignItems: "center",
@@ -119,7 +119,7 @@ export const RequestListItem: React.FC<RequestListItemProps> = ({
     <div className={classes.outer} data-testid="request-list-item">
       <ListItem className={classes.item} onClick={onClicked} button>
         <ListItemAvatar>
-          <Avatar src={user.photo?.small} alt="request-avatar" />
+          <Avatar src={user.photo?.small ?? ""} alt="request-avatar" />
         </ListItemAvatar>
         <div className={classes.listItemText}>
           <div className={classes.primaryText}>{user.username}</div>

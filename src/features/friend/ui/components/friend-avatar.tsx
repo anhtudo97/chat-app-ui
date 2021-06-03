@@ -4,8 +4,8 @@ import { formatDate } from "../../../../shared/utils/date-utils";
 
 export type FriendAvatarProps = {
   src: string | undefined;
-  lastSeen?: number;
-  className?: string;
+  lastSeen?: number | undefined;
+  className?: string | undefined;
 };
 
 const useStyles = makeStyles({
@@ -56,7 +56,11 @@ export const FriendAvatar: React.FC<FriendAvatarProps> = ({
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         className={online ? classes.dot : classes.badge}
       >
-        <Avatar className={className} src={src} alt="friend-avatar" />
+        <Avatar
+          className={className ?? ""}
+          src={src ?? ""}
+          alt="friend-avatar"
+        />
       </Badge>
     </ListItemAvatar>
   );
