@@ -51,8 +51,8 @@ const validators = {
 export type ProfileUpdatingScreenProps = {
   registering?: boolean;
   initialUsername?: string;
-  initialName?: string;
-  initialPhotoURL?: string;
+  initialName?: string | undefined;
+  initialPhotoURL?: string | undefined;
 };
 
 const useStyles = makeStyles((theme: Theme) =>
