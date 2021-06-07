@@ -15,7 +15,7 @@ import { useAuthActions } from "../auth-actions-context";
 import { useAppDispatch, useAppSelector } from "../../../core/redux/hooks";
 import logoUrl from "../../../assets/images/vgc_transparent_black.png";
 
-const LoginScreen = () => {
+export const LoginScreen = () => {
   // redux hooks
   const state = useAppSelector((state) => state.auth, shallowEqual);
   const dispatch = useAppDispatch();
@@ -26,10 +26,9 @@ const LoginScreen = () => {
       case AuthError.cookiesDisabled:
         return "Please enable your cookies";
       case AuthError.network:
-        return "Check your internet connection";
-
+        return "Check your internet";
       default:
-        return "Something went wrong!";
+        return "Something weird happened";
     }
   };
 
@@ -39,11 +38,10 @@ const LoginScreen = () => {
   };
 
   const classes = useStyles();
-
   return (
     <div className={classes.wrapper} data-testid="login-screen">
       <div className={classes.layout}>
-        <img className={classes.logo} src={logoUrl} alt="Logo" />
+        <img className={classes.logo} src={logoUrl} alt="logo" />
         <div className={classes.buttonWrapper}>
           {!state.loading && (
             <Button
@@ -52,7 +50,7 @@ const LoginScreen = () => {
               onClick={login}
               disabled={state.loading}
               startIcon={
-                <Icon className={"fa fa-google" + classes.loginButtonIcon} />
+                <Icon className={"fa fa-google " + classes.loginButtonIcon} />
               }
               variant="contained"
             >
@@ -107,5 +105,3 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-export default LoginScreen;
