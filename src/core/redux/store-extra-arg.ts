@@ -1,23 +1,23 @@
 import IAuthRepository from "../../features/auth/data/auth-repository";
 import { IMeRepository } from "../../features/user/data/me-repository";
-import { IFriendRepository } from "../../features/friend/data/friend-repository";
-import { IChatRepository } from "../../features/chat/data/chat-repository";
-import { IBadgeRepository } from "../../features/badge/data/badge-repository";
 import { ISearchRepository } from "../../features/search/data/search-repository";
-import { IBlockRepository } from "../../features/block/data/block-repository";
+import { IFriendRepository } from "../../features/friend/data/friend-repository";
+import { IBadgeRepository } from "../../features/badge/data/badge-repository";
 import { INotificationRepository } from "../../features/notification/data/notification-repository";
+import { IBlockRepository } from "../../features/block/data/block-respository";
+import { IChatRepository } from "../../features/chat/data/chat-repository";
 
 import { IFileUtils } from "../../shared/utils/file-utils";
 
 type StoreExtraArg = {
   authRepo: IAuthRepository;
-  badgeRepo: IBadgeRepository;
   meRepo: IMeRepository;
-  friendRepo: IFriendRepository;
   searchRepo: ISearchRepository;
-  chatRepo: IChatRepository;
+  friendRepo: IFriendRepository;
+  badgeRepo: IBadgeRepository;
   blockRepo: IBlockRepository;
   notificationRepo: INotificationRepository;
+  chatRepo: IChatRepository;
   fileUtils: IFileUtils;
 };
 

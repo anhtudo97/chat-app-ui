@@ -6,26 +6,26 @@ import {
 
 import authReducer from "../../features/auth/auth-slice";
 import meReducer from "../../features/user/me-slice";
+import searchReducer from "../../features/search/search-slice";
 import friendProfileReducer from "../../features/friend/friend-profile-slice";
 import friendsReducer from "../../features/friend/friends-slice";
-import chatReducer from "../../features/chat/chat-slice";
-import blockReducer from "../../features/block/block-slice";
-import notificationReducer from "../../features/notification/notification-slice";
-import searchReducer from "../../features/search/search-slice";
 import badgeReducer from "../../features/badge/badge-slice";
+import notificationReducer from "../../features/notification/notification-slice";
+import blockReducer from "../../features/block/block-slice";
+import chatReducer from "../../features/chat/chat-slice";
 
 import StoreExtraArg from "./store-extra-arg";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  block: blockReducer,
   me: meReducer,
-  friendProfile: friendProfileReducer,
-  notification: notificationReducer,
-  friends: friendsReducer,
-  chat: chatReducer,
   search: searchReducer,
+  friendProfile: friendProfileReducer,
+  friends: friendsReducer,
   badge: badgeReducer,
+  notification: notificationReducer,
+  block: blockReducer,
+  chat: chatReducer,
 });
 
 const createStore = (services: StoreExtraArg) => {
