@@ -12,7 +12,7 @@ import { ConversationScreen } from "../../chat/ui/conversation-screen";
 import { useLargeMQ, useMobileMQ } from "../../../shared/styles/media-query";
 import { ResponsiveTwoSides } from "../../../shared/components/responsive-two-sides";
 
-const MainScreen = () => {
+export const MainScreen = () => {
   const [searching, setSearching] = useState(false);
   const history = useHistory();
   const state = useSelector((state: AppState) => state.me);
@@ -82,5 +82,3 @@ const useStyles = makeStyles({
     flex: 1,
   },
 });
-
-export default MainScreen;
