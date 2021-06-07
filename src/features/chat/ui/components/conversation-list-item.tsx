@@ -23,7 +23,7 @@ export type ConversationListItemProps = {
   style?: React.CSSProperties;
 };
 
-export const CoversationListItem: React.FC<ConversationListItemProps> = ({
+export const ConversationListItem: React.FC<ConversationListItemProps> = ({
   conversation,
   currentUserID,
   typing,
