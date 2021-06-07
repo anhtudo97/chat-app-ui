@@ -276,7 +276,7 @@ export const ProfileUpdatingScreen: React.FC<ProfileUpdatingScreenProps> = ({
       <div className={classes.layout}>
         <ProfilePhotoPicker
           defaultSrc={defaultSrc}
-          src={src}
+          src={src ?? ""}
           onPhotoPicker={photoPicker}
           onPhotoRemoved={photoRemoved}
         />

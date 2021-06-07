@@ -32,7 +32,7 @@ export class MeRepository implements IMeRepository {
     try {
       const result = await work();
       return right(result);
-    } catch (e) {
+    } catch (e: any) {
       if (isApolloError(e)) {
         const code = e.graphQLErrors[0]?.extensions?.code;
         if (!code) {

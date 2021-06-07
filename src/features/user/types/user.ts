@@ -18,7 +18,7 @@ export type Me = User & {
 export type UserCreation = {
   username: string;
   name?: string;
-  photo?: File;
+  photo?: File | undefined;
 };
 
 export type UserUpdate = {
