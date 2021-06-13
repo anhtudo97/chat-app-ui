@@ -49,7 +49,7 @@ export class AuthRepository implements IAuthRepository {
     try {
       const result = await work();
       return right(result);
-    } catch (e) {
+    } catch (e: any) {
       console.log("AuthRepo THREW: ", JSON.stringify(e));
       if (axios.isAxiosError(e)) {
         if (e.response) {

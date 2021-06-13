@@ -8,7 +8,7 @@ import { nonDraggable } from "../../../../shared/styles/shared";
 import { useDropzone } from "react-dropzone";
 
 type ProfilePhotoPickerStyle = {
-  size?: number;
+  size?: number | undefined;
 };
 
 type ProfilePhotoPickerProps = {

@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 
 export type CircleButtonStyle = {
-  size?: number;
+  size?: number | undefined;
   bgColor?: string;
   iconColor?: string;
   disableElevation?: boolean;
@@ -69,7 +69,7 @@ export const CircleButton = (props: CircleButtonProps) => {
       onClick={props.onClick}
       variant="contained"
       data-testid={props["data-testid"]}
-      disableElevation={props.disableElevation}
+      disableElevation={props.disableElevation || false}
     >
       <Icon>{props.icon}</Icon>
     </Button>
