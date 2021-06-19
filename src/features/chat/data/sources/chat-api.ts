@@ -226,7 +226,7 @@ export default class ChatAPI implements IChatAPI {
     return {
       id: conv.id,
       type: ConversationType[conv.type],
-      participants: conv.participants.map(UserAPI.parserUser),
+      participants: conv.participants.map(UserAPI.parseUser),
       messages: conv.messages.map(ChatAPI.parseMessage),
       canChat: conv.canChat,
     };

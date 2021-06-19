@@ -34,7 +34,7 @@ export default class BlockAPI implements IBlockAPI {
     });
     const block = data?.block!;
     return {
-      user: UserAPI.parserUser(block.user!),
+      user: UserAPI.parseUser(block.user!),
       date: block?.date,
     };
   }
@@ -55,7 +55,7 @@ export default class BlockAPI implements IBlockAPI {
     });
     return data.getBlockedUsers.map((block) => {
       return {
-        user: UserAPI.parserUser(block.user!),
+        user: UserAPI.parseUser(block.user!),
         date: block.date,
       };
     });

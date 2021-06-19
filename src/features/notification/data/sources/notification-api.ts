@@ -34,7 +34,7 @@ export default class NotificationAPI implements INotificationAPI {
       case NotificationType.REQUEST_ACCEPTED:
         return {
           type: notification.type,
-          user: UserAPI.parserUser(notification.friend!),
+          user: UserAPI.parseUser(notification.friend!),
         };
 
       default:

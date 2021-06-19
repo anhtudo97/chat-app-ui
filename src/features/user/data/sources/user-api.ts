@@ -53,7 +53,7 @@ export class UserAPI implements IUserAPI {
     this._client = _client;
   }
 
-  static parserUser(user: MeQuery_me_user): User {
+  static parseUser(user: MeQuery_me_user): User {
     return {
       id: user.id,
       username: user.username,
@@ -68,7 +68,7 @@ export class UserAPI implements IUserAPI {
 
   static parserMe(me: MeQuery_me): Me {
     return {
-      ...this.parserUser(me.user),
+      ...this.parseUser(me.user),
       activeStatus: me.activeStatus,
     };
   }
@@ -119,7 +119,7 @@ export class UserAPI implements IUserAPI {
       query: FIND_USERS_QUERY,
       variables: { findUsersSearchQuery: searchQuery },
     });
-    return data.findUsers.map((user) => UserAPI.parserUser(user));
+    return data.findUsers.map((user) => UserAPI.parseUser(user));
   }
 
   async updateActiveStatus(activeStatus: boolean): Promise<boolean> {

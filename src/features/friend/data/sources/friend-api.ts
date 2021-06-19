@@ -71,7 +71,7 @@ export default class FriendAPI implements IFriendAPI {
 
     return data.getFriends.map((friend) => {
       return {
-        user: UserAPI.parserUser(friend.user),
+        user: UserAPI.parseUser(friend.user),
         date: friend.friendshipDate,
         lastSeen: friend.lastSeen ?? undefined,
       };
@@ -87,11 +87,11 @@ export default class FriendAPI implements IFriendAPI {
     const requests = data.getFriendRequests;
     return {
       sent: requests.sent.map((r) => ({
-        user: UserAPI.parserUser(r.user),
+        user: UserAPI.parseUser(r.user),
         date: r.date,
       })),
       received: requests.received.map((r) => ({
-        user: UserAPI.parserUser(r.user),
+        user: UserAPI.parseUser(r.user),
         date: r.date,
       })),
     };
@@ -109,7 +109,7 @@ export default class FriendAPI implements IFriendAPI {
 
     return {
       ...data.getFriendshipInfo,
-      user: UserAPI.parserUser(data.getFriendshipInfo.user),
+      user: UserAPI.parseUser(data.getFriendshipInfo.user),
     };
   }
 
