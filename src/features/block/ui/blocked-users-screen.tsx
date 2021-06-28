@@ -45,9 +45,12 @@ export const BlockedUsersScreen = () => {
     dispatch(actions.getBlockedUsers());
   }, []);
 
-  const onItemClicked = useCallback((block: Block) => {
-    history.push(`/u/${block.user.username} `, { canGoBack: true });
-  }, []);
+  const onItemClicked = useCallback(
+    (block: Block) => {
+      history.push(`/u/${block.user.username}`, { canGoBack: true });
+    },
+    [history]
+  );
 
   let child: React.ReactNode;
   if (!state.error && !state.blocks) {
@@ -70,7 +73,7 @@ export const BlockedUsersScreen = () => {
     } else {
       child = (
         <span className={classes.centered} data-testid="no-blocked-users">
-          You have not blocked users
+          You haven't blocked anyone
         </span>
       );
     }
@@ -91,6 +94,7 @@ export const BlockedUsersScreen = () => {
           Blocked users
         </Typography>
       </TopBar>
+      {child}
     </div>
   );
 };

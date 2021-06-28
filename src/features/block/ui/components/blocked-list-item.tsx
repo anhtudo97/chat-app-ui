@@ -37,7 +37,7 @@ export const BlockedListItem: React.FC<BlockedListItemProps> = ({
     <div style={style} data-testid="blocked-list-item">
       <ListItem className={classes.listItem} onClick={onItemClicked} button>
         <ListItemAvatar>
-          <Avatar src={block.user.photo?.small!} />
+          <Avatar src={block.user.photo?.small} alt="blocked-profile-picture" />
         </ListItemAvatar>
         <ListItemText primary={block.user.username} />
       </ListItem>

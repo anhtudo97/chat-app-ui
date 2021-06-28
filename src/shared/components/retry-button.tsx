@@ -17,6 +17,7 @@ export const RetryButton: React.FC<RetryButtonProps> = ({
       <IconButton onClick={onClick} data-testid="retry-button">
         <Icon className={classes.icon}>refresh</Icon>
       </IconButton>
+      <p className={classes.message}>{message}</p>
     </div>
   );
 };
