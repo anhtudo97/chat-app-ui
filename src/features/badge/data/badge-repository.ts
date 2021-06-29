@@ -1,4 +1,3 @@
-import { GetBadges } from "./../../../_generated/GetBadges";
 import { Badge, BadgeName } from "../types/badge";
 import { Either, left, right } from "fp-ts/Either";
 import BadgeError from "../types/badge-error";
@@ -21,6 +20,7 @@ export default class BadgeRepository implements IBadgeRepository {
   getBadges(): Promise<Either<BadgeError, Badge[]>> {
     return BadgeRepository._leftOrRight(() => this._badgeAPI.getBadges());
   }
+
   updateBadge(badgeName: BadgeName): Promise<Either<BadgeError, Badge>> {
     return BadgeRepository._leftOrRight(() =>
       this._badgeAPI.updateBadge(badgeName)
@@ -37,7 +37,10 @@ export default class BadgeRepository implements IBadgeRepository {
       console.log("BadgeRepo THREW: ", e);
       if (isApolloError(e)) {
         const code = e.graphQLErrors[0]?.extensions?.code;
-        if (!code) return left(BadgeError.network);
+        if (!code) {
+          // Probably an internet error, not sure
+          return left(BadgeError.network);
+        }
       }
       return left(BadgeError.general);
     }

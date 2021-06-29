@@ -40,17 +40,21 @@ const badgeSlice = createSlice({
     // getBadges
     builder.addCase(getBadges.fulfilled, (state, action) => {
       action.payload.forEach((b) => {
-        if (b.badgeName === BadgeName.NOTIFICATIONS) {
+        if (b.badgeName == BadgeName.NOTIFICATIONS) {
           state.notifications = b.lastOpened;
-        } else state.friendRequests = b.lastOpened;
+        } else {
+          state.friendRequests = b.lastOpened;
+        }
       });
     });
     // updateBadge
-    builder.addCase(updateBadge.fulfilled, (state, action) => {
+    builder.addCase(updateBadge.pending, (state, action) => {
       const badgeName = action.meta.arg;
-      if (badgeName === BadgeName.NOTIFICATIONS)
+      if (badgeName == BadgeName.NOTIFICATIONS) {
         state.notifications = new Date().getTime();
-      else state.friendRequests = new Date().getTime();
+      } else {
+        state.friendRequests = new Date().getTime();
+      }
     });
   },
 });
