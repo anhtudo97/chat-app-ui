@@ -9,7 +9,7 @@ export type NotificationState = {
   error: NotificationError | null;
 };
 
-export const initialNoticationState: NotificationState = {
+export const initialNotificationState: NotificationState = {
   notifications: null,
   error: null,
 };
@@ -38,7 +38,7 @@ const markNotificationAsSeen = createAsyncThunk<
 
 const notificationSlice = createSlice({
   name: "notification",
-  initialState: initialNoticationState,
+  initialState: initialNotificationState,
   reducers: {},
   extraReducers: (builder) => {
     // getNotifications
