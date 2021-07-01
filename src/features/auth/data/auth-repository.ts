@@ -49,7 +49,7 @@ export class AuthRepository implements IAuthRepository {
     try {
       const result = await work();
       return right(result);
-    } catch (e: any) {
+    } catch (e) {
       console.log("AuthRepo THREW: ", JSON.stringify(e));
       if (axios.isAxiosError(e)) {
         if (e.response) {
@@ -64,7 +64,7 @@ export class AuthRepository implements IAuthRepository {
             return left(AuthError.cookiesDisabled);
           case AuthRepository.ERROR_ABORTED:
             return left(AuthError.abortedByUser);
-          default:
+          case AuthRepository.ERROR_NETWORK:
             return left(AuthError.network);
         }
       }
