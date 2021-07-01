@@ -1,6 +1,6 @@
 # very_good_chat_web
 
-![Typescript][typescript-badge]![Starware][starware]
+![Typescript][typescript-badge]![Starware][starware][![Codecov Coverage](https://img.shields.io/codecov/c/github/anhtudo97/chat-app-ui/master.svg?style=flat-square)](https://codecov.io/gh/anhtudo97/chat-app-ui/)
 
 - Typescript
 - React
