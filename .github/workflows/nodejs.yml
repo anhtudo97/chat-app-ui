@@ -24,4 +24,7 @@ jobs:
         env:
           CI: true
       - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: 5c8a61bd-6431-4d3d-8c1a-5d6e14c729ca
         run: ./bin/codecov
