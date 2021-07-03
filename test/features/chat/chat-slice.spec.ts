@@ -124,4 +124,169 @@ describe("getConversations", () => {
       MockChatRepo.messagesDelivered(deepEqual([mockConversation.id]))
     ).once();
   });
+
+  it("should return the right state when rejected", async () => {
+    // arrange
+    when(MockChatRepo.getConversations()).thenResolve(left(chatError));
+    // act
+    const result = await act();
+    // assert
+    expect(result.type).toBe(chatActions.getConversations.rejected.type);
+    expect(result.payload).toBe(chatError);
+    verify(MockChatRepo.getConversations()).once();
+  });
+
+  describe("reducers", () => {
+    it("should return the right state if pending", () => {
+      // arrange
+      const inputState: ChatState = { ...initialChatState, error: chatError };
+      const outputState: ChatState = { ...inputState, error: null };
+      const action: PayloadAction<undefined> = {
+        type: chatActions.getConversations.pending.type,
+        payload: undefined,
+      };
+      // act
+      const result = reducer(inputState, action);
+      // assert
+      expect(result).toStrictEqual(outputState);
+    });
+
+    it("should return the right state if fulfilled", () => {
+      // arrange
+      const inputState: ChatState = { ...initialChatState };
+      const outputState: ChatState = {
+        ...inputState,
+        conversations: [mockConversation],
+        hasMore: {
+          [mockConversation.id]: false,
+        },
+        lastSeen: {
+          [mockConversation.id]: {
+            [mockConversation.messages[0].senderID]:
+              mockConversation.messages[1].id,
+            [mockConversation.messages[1].senderID]:
+              mockConversation.messages[1].id,
+          },
+        },
+      };
+      const action: PayloadAction<Conversation[]> = {
+        type: chatActions.getConversations.fulfilled.type,
+        payload: [mockConversation],
+      };
+      // act
+      const result = reducer(inputState, action);
+      // assert
+      expect(result).toStrictEqual(outputState);
+    });
+  });
+});
+
+describe("getOrCreateOTOConversation", () => {
+  const { getOrCreateOTOConversation } = chatActions;
+  const userID = "userIIIIID";
+  const act = (store: AppStore = mockStore) =>
+    getOrCreateOTOConversation(userID)(store.dispatch, store.getState, extra);
+
+  it("should return the right state if fulfilled", async () => {
+    // arrange
+    when(MockChatRepo.getOrCreateOneToOneConversation(anything())).thenResolve(
+      right(mockConversation)
+    );
+    // act
+    const result = await act();
+    // assert
+    expect(result.type).toBe(getOrCreateOTOConversation.fulfilled.type);
+    expect(result.payload).toStrictEqual(mockConversation);
+    verify(MockChatRepo.getOrCreateOneToOneConversation(userID)).once();
+    verify(
+      MockChatRepo.messagesDelivered(deepEqual([mockConversation.id]))
+    ).once();
+  });
+
+  it("should return the right state if rejected", async () => {
+    // arrange
+    when(MockChatRepo.getOrCreateOneToOneConversation(anything())).thenResolve(
+      left(chatError)
+    );
+    // act
+    const result = await act();
+    // assert
+    expect(result.type).toBe(getOrCreateOTOConversation.rejected.type);
+    expect(result.payload).toStrictEqual(chatError);
+    verify(MockChatRepo.getOrCreateOneToOneConversation(userID)).once();
+  });
+
+  describe("reducers", () => {
+    describe("should return the right state if fulfilled", () => {
+      const hasMore = { [mockConversation.id]: false };
+      const lastSeen = {
+        [mockConversation.id]: {
+          [mockConversation.messages[0].senderID]:
+            mockConversation.messages[1].id,
+          [mockConversation.messages[1].senderID]:
+            mockConversation.messages[1].id,
+        },
+      };
+
+      it("when conversations is null", () => {
+        // arrange
+        const inputState: ChatState = { ...initialChatState };
+        const outputState: ChatState = {
+          ...inputState,
+          conversations: [mockConversation],
+          hasMore,
+          lastSeen,
+        };
+        const action: PayloadAction<Conversation> = {
+          type: getOrCreateOTOConversation.fulfilled.type,
+          payload: mockConversation,
+        };
+        // act
+        const result = reducer(inputState, action);
+        // assert
+        expect(result).toStrictEqual(outputState);
+      });
+      it("when conversations is not null, but does not contain the received conversation", () => {
+        // arrange
+        const inputState: ChatState = {
+          ...initialChatState,
+          conversations: [{ ...mockConversation, id: 1234567890 }],
+        };
+        const outputState: ChatState = {
+          ...inputState,
+          conversations: [mockConversation, ...inputState.conversations!],
+          hasMore,
+          lastSeen,
+        };
+        const action: PayloadAction<Conversation> = {
+          type: getOrCreateOTOConversation.fulfilled.type,
+          payload: mockConversation,
+        };
+        // act
+        const result = reducer(inputState, action);
+        // assert
+        expect(result).toStrictEqual(outputState);
+      });
+      it("when conversations is not null, and contains the received conversation", () => {
+        // arrange
+        const inputState: ChatState = {
+          ...initialChatState,
+          conversations: [
+            { ...mockConversation, id: 1234567890 },
+            { ...mockConversation, messages: [] },
+            { ...mockConversation, id: 123456789011 },
+          ],
+        };
+        const outputState: ChatState = { ...inputState };
+        const action: PayloadAction<Conversation> = {
+          type: getOrCreateOTOConversation.fulfilled.type,
+          payload: mockConversation,
+        };
+        // act
+        const result = reducer(inputState, action);
+        // assert
+        expect(result).toStrictEqual(outputState);
+      });
+    });
+  });
 });
