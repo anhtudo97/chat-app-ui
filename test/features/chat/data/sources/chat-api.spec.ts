@@ -277,7 +277,7 @@ describe("subscribeToTypings", () => {
     const observable = Observable.of<STMFR>(typing, {});
     when(MockApolloClient.subscribe(anything())).thenReturn(observable);
     // act
-    const result = chatAPI.subscribeToTypings();
+    const result = chatAPI.subscribeToTyping();
     // assert
     result.forEach((m) => {
       expect(m).toStrictEqual(mockTyping);
